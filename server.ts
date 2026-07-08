@@ -19,8 +19,8 @@ function getGeminiClient(): GoogleGenAI {
     throw new Error("No se ha configurado la clave de API de Gemini (GEMINI_API_KEY). Por favor agréguela desde el panel de Configuración > Secretos.");
   }
   
-  if (apiKey.startsWith("AQ.Ab") || apiKey === "YOUR_API_KEY" || apiKey.length < 20) {
-    throw new Error("La clave de API de Gemini (GEMINI_API_KEY) configurada en AI Studio no tiene el formato correcto (debe comenzar con 'AIzaSy'). Por favor, agregue una clave de API válida de Google AI Studio desde el panel de Configuración > Secretos (Settings > Secrets) en AI Studio.");
+  if (apiKey === "YOUR_API_KEY" || apiKey.length < 20) {
+    throw new Error("La clave de API de Gemini (GEMINI_API_KEY) configurada en AI Studio no tiene el formato correcto. Por favor, agregue una clave de API válida de Google AI Studio desde el panel de Configuración > Secretos (Settings > Secrets) en AI Studio.");
   }
 
   if (!aiClient) {
@@ -39,7 +39,7 @@ function getGeminiClient(): GoogleGenAI {
 function formatGeminiError(err: any): string {
   const msg = err?.message || "";
   if (msg.includes("API key not valid") || msg.includes("API_KEY_INVALID")) {
-    return "La clave de API de Gemini (GEMINI_API_KEY) configurada en AI Studio no es válida. Por favor, asegúrese de ingresar una clave de API de Google AI Studio válida (que comience con 'AIzaSy') en el panel de Configuración > Secretos (Settings > Secrets) de AI Studio.";
+    return "La clave de API de Gemini (GEMINI_API_KEY) configurada en AI Studio no es válida. Por favor, asegúrese de ingresar una clave de API de Google AI Studio válida en el panel de Configuración > Secretos (Settings > Secrets) de AI Studio.";
   }
   if (msg.includes("API_KEY_SERVICE_BLOCKED") || msg.includes("blocked") || msg.includes("PERMISSION_DENIED")) {
     return "La clave de API utilizada tiene restricciones de uso o tiene bloqueado el acceso al servicio de Gemini (generativelanguage.googleapis.com). Por favor revise las restricciones de su clave de API en Google Cloud Console o configure una clave sin restricciones.";
